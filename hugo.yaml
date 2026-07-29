@@ -1,0 +1,79 @@
+baseURL: "https://bergmannlucas.github.io/"
+title: "Lucas Bergmann"
+
+locale: pt-BR
+defaultContentLanguage: pt-br
+
+enableRobotsTXT: true
+enableGitInfo: true
+
+module:
+  hugoVersion:
+    extended: true
+    min: "0.146.0"
+  imports:
+    - path: github.com/imfing/hextra
+
+markup:
+  highlight:
+    noClasses: false
+  goldmark:
+    renderer:
+      unsafe: true
+
+enableInlineShortcodes: true
+
+taxonomies:
+  tag: tags
+
+menu:
+  main:
+    - name: Posts
+      pageRef: /posts
+      weight: 1
+    - name: Sobre
+      pageRef: /about
+      weight: 2
+    - name: Search
+      weight: 3
+      params:
+        type: search
+    - name: GitHub
+      weight: 4
+      url: "https://github.com/bergmannlucas"
+      params:
+        icon: github
+
+params:
+  description: Blog pessoal de Lucas Bergmann — notas sobre software e outras coisas.
+
+  navbar:
+    displayTitle: true
+    displayLogo: false
+
+  theme:
+    default: system
+    displayToggle: true
+
+  search:
+    enable: true
+    type: flexsearch
+
+  blog:
+    list:
+      displayTags: true
+
+  # Comentários via giscus (GitHub Discussions).
+  # repoId e categoryId preenchidos após criar o repo e habilitar Discussions.
+  comments:
+    enable: true
+    type: giscus
+    giscus:
+      repo: bergmannlucas/bergmannlucas.github.io
+      repoId: "R_kgDOTmmFQQ"
+      category: General
+      categoryId: "DIC_kwDOTmmFQc4DCMSk"
+      mapping: pathname
+      reactionsEnabled: 1
+      inputPosition: top
+      lang: pt
