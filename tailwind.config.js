@@ -39,7 +39,7 @@ module.exports = {
         },
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        sans: ['JetBrains Mono', 'ui-monospace', 'monospace'],
         mono: ['JetBrains Mono', 'ui-monospace', 'monospace'],
       },
     },

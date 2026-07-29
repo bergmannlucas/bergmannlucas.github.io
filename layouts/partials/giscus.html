@@ -3,19 +3,55 @@
 <div class="mt-16 pt-8 border-t border-border dark:border-border-dark">
   <h2 class="text-sm font-mono uppercase tracking-widest text-text-muted dark:text-text-muted-dark mb-6">Comentários</h2>
   <div class="giscus"></div>
-  <script src="https://giscus.app/client.js"
-    data-repo="{{ $giscus.repo }}"
-    data-repo-id="{{ $giscus.repoId }}"
-    data-category="{{ $giscus.category }}"
-    data-category-id="{{ $giscus.categoryId }}"
-    data-mapping="{{ $giscus.mapping }}"
-    data-reactions-enabled="{{ $giscus.reactionsEnabled }}"
-    data-emit-metadata="0"
-    data-input-position="{{ $giscus.inputPosition }}"
-    data-theme="{{ if .Site.Params.theme.default }}preferred_color_scheme{{ else }}light{{ end }}"
-    data-lang="{{ $giscus.lang }}"
-    crossorigin="anonymous"
-    async>
+  <script>
+    (function() {
+      function getSiteTheme() {
+        const stored = localStorage.getItem('theme') || 'system';
+        if (stored === 'system') {
+          return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        return stored;
+      }
+
+      const giscusTheme = getSiteTheme() === 'dark' ? 'dark' : 'light';
+
+      const script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      script.setAttribute('data-repo', '{{ $giscus.repo }}');
+      script.setAttribute('data-repo-id', '{{ $giscus.repoId }}');
+      script.setAttribute('data-category', '{{ $giscus.category }}');
+      script.setAttribute('data-category-id', '{{ $giscus.categoryId }}');
+      script.setAttribute('data-mapping', '{{ $giscus.mapping }}');
+      script.setAttribute('data-reactions-enabled', '{{ $giscus.reactionsEnabled }}');
+      script.setAttribute('data-emit-metadata', '0');
+      script.setAttribute('data-input-position', '{{ $giscus.inputPosition }}');
+      script.setAttribute('data-theme', giscusTheme);
+      script.setAttribute('data-lang', '{{ $giscus.lang }}');
+      script.setAttribute('crossorigin', 'anonymous');
+      script.async = true;
+      document.currentScript.parentNode.insertBefore(script, document.currentScript);
+
+      function sendGiscusTheme(theme) {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({
+          giscus: { setConfig: { theme: theme } }
+        }, 'https://giscus.app');
+      }
+
+      const observer = new MutationObserver(function() {
+        const theme = getSiteTheme() === 'dark' ? 'dark' : 'light';
+        sendGiscusTheme(theme);
+      });
+
+      observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function() {
+        if ((localStorage.getItem('theme') || 'system') === 'system') {
+          sendGiscusTheme(getSiteTheme() === 'dark' ? 'dark' : 'light');
+        }
+      });
+    })();
   </script>
 </div>
 {{ end }}

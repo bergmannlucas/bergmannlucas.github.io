@@ -37,17 +37,9 @@ menu:
     - name: Posts
       pageRef: /posts
       weight: 1
-    - name: Snippets
-      pageRef: /snippets
-      weight: 2
     - name: Sobre
       pageRef: /about
-      weight: 3
-    - name: GitHub
-      weight: 4
-      url: "https://github.com/bergmannlucas"
-      params:
-        external: true
+      weight: 2
 
 params:
   description: Blog pessoal de Lucas Bergmann — notas sobre software e outras coisas.
