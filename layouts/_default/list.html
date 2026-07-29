@@ -1,0 +1,18 @@
+{{ define "main" }}
+<section class="pt-16 pb-8">
+  <h1 class="text-3xl sm:text-4xl font-semibold tracking-tight mb-3">{{ .Title }}</h1>
+  {{ if .Content }}
+    <div class="prose text-text-muted dark:text-text-muted-dark">
+      {{ .Content }}
+    </div>
+  {{ end }}
+</section>
+
+<section class="pb-12">
+  {{ range .Pages.ByDate.Reverse }}
+    {{ partial "post-card.html" . }}
+  {{ else }}
+    <p class="py-12 text-text-muted dark:text-text-muted-dark">Nenhum post publicado ainda.</p>
+  {{ end }}
+</section>
+{{ end }}

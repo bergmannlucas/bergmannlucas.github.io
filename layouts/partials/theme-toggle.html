@@ -1,0 +1,53 @@
+<button
+  type="button"
+  id="theme-toggle"
+  aria-label="Alternar tema"
+  class="p-2 rounded-md text-text-muted dark:text-text-muted-dark hover:text-text dark:hover:text-text-dark hover:bg-surface dark:hover:bg-surface-dark transition-colors"
+>
+  <svg id="theme-icon-sun" class="w-4 h-4 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
+  </svg>
+  <svg id="theme-icon-moon" class="w-4 h-4 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
+  </svg>
+</button>
+
+<script>
+  (function() {
+    const toggle = document.getElementById('theme-toggle');
+    const sun = document.getElementById('theme-icon-sun');
+    const moon = document.getElementById('theme-icon-moon');
+
+    function updateIcons() {
+      const isDark = document.documentElement.classList.contains('dark');
+      sun.classList.toggle('hidden', isDark);
+      moon.classList.toggle('hidden', !isDark);
+    }
+
+    function getTheme() {
+      return localStorage.getItem('theme') || 'system';
+    }
+
+    function applyTheme(theme) {
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const isDark = theme === 'dark' || (theme === 'system' && prefersDark);
+      document.documentElement.classList.toggle('dark', isDark);
+      updateIcons();
+    }
+
+    const themes = ['system', 'light', 'dark'];
+    let current = getTheme();
+    applyTheme(current);
+
+    toggle.addEventListener('click', () => {
+      const nextIndex = (themes.indexOf(current) + 1) % themes.length;
+      current = themes[nextIndex];
+      localStorage.setItem('theme', current);
+      applyTheme(current);
+    });
+
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+      if (getTheme() === 'system') applyTheme('system');
+    });
+  })();
+</script>

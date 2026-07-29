@@ -1,0 +1,21 @@
+{{ if and .Site.Params.comments.enable .Site.Params.comments.giscus }}
+{{ $giscus := .Site.Params.comments.giscus }}
+<div class="mt-16 pt-8 border-t border-border dark:border-border-dark">
+  <h2 class="text-sm font-mono uppercase tracking-widest text-text-muted dark:text-text-muted-dark mb-6">Comentários</h2>
+  <div class="giscus"></div>
+  <script src="https://giscus.app/client.js"
+    data-repo="{{ $giscus.repo }}"
+    data-repo-id="{{ $giscus.repoId }}"
+    data-category="{{ $giscus.category }}"
+    data-category-id="{{ $giscus.categoryId }}"
+    data-mapping="{{ $giscus.mapping }}"
+    data-reactions-enabled="{{ $giscus.reactionsEnabled }}"
+    data-emit-metadata="0"
+    data-input-position="{{ $giscus.inputPosition }}"
+    data-theme="{{ if .Site.Params.theme.default }}preferred_color_scheme{{ else }}light{{ end }}"
+    data-lang="{{ $giscus.lang }}"
+    crossorigin="anonymous"
+    async>
+  </script>
+</div>
+{{ end }}

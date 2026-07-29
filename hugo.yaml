@@ -11,17 +11,23 @@ module:
   hugoVersion:
     extended: true
     min: "0.146.0"
-  imports:
-    - path: github.com/imfing/hextra
 
 markup:
   highlight:
-    noClasses: false
+    noClasses: true
+    style: github
+    lineNos: false
   goldmark:
     renderer:
       unsafe: true
 
 enableInlineShortcodes: true
+
+outputs:
+  home:
+    - HTML
+    - RSS
+    - JSON
 
 taxonomies:
   tag: tags
@@ -31,43 +37,32 @@ menu:
     - name: Posts
       pageRef: /posts
       weight: 1
+    - name: Snippets
+      pageRef: /snippets
+      weight: 2
     - name: Sobre
       pageRef: /about
-      weight: 2
-    - name: Search
       weight: 3
-      params:
-        type: search
     - name: GitHub
       weight: 4
       url: "https://github.com/bergmannlucas"
       params:
-        icon: github
+        external: true
 
 params:
   description: Blog pessoal de Lucas Bergmann — notas sobre software e outras coisas.
 
-  navbar:
-    displayTitle: true
-    displayLogo: false
+  author:
+    name: Lucas Bergmann
+    initials: LB
+    role: Desenvolvedor de software
+    bio: Escrevendo há alguns anos
 
   theme:
     default: system
-    displayToggle: true
 
-  search:
-    enable: true
-    type: flexsearch
-
-  blog:
-    list:
-      displayTags: true
-
-  # Comentários via giscus (GitHub Discussions).
-  # repoId e categoryId preenchidos após criar o repo e habilitar Discussions.
   comments:
     enable: true
-    type: giscus
     giscus:
       repo: bergmannlucas/bergmannlucas.github.io
       repoId: "R_kgDOTmmFQQ"

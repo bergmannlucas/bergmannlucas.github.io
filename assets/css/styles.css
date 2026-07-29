@@ -1,0 +1,119 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-bg text-text font-sans transition-colors duration-200;
+  }
+
+  .dark body {
+    @apply bg-bg-dark text-text-dark;
+  }
+
+  ::selection {
+    @apply bg-accent/20;
+  }
+
+  .dark ::selection {
+    @apply bg-accent-dark/30;
+  }
+}
+
+@layer components {
+  .prose {
+    @apply text-lg leading-relaxed;
+  }
+
+  .prose p {
+    @apply my-6;
+  }
+
+  .prose h2 {
+    @apply text-2xl font-semibold mt-12 mb-4 tracking-tight;
+  }
+
+  .prose h3 {
+    @apply text-xl font-semibold mt-8 mb-3 tracking-tight;
+  }
+
+  .prose ul {
+    @apply my-6 list-disc pl-6;
+  }
+
+  .prose ol {
+    @apply my-6 list-decimal pl-6;
+  }
+
+  .prose li {
+    @apply my-2;
+  }
+
+  .prose a {
+    @apply text-accent underline underline-offset-4 decoration-accent/30 hover:decoration-accent transition-all;
+  }
+
+  .dark .prose a {
+    @apply text-accent-dark decoration-accent-dark/30 hover:decoration-accent-dark;
+  }
+
+  .prose strong {
+    @apply font-semibold;
+  }
+
+  .prose blockquote {
+    @apply border-l-2 border-muted/30 pl-4 italic my-6 text-muted;
+  }
+
+  .dark .prose blockquote {
+    @apply border-muted-dark/30 text-muted-dark;
+  }
+
+  .prose table {
+    @apply w-full text-sm my-6 border-collapse;
+  }
+
+  .prose th {
+    @apply text-left font-semibold border-b border-border py-2 px-3;
+  }
+
+  .dark .prose th {
+    @apply border-border-dark;
+  }
+
+  .prose td {
+    @apply border-b border-border py-2 px-3;
+  }
+
+  .dark .prose td {
+    @apply border-border-dark;
+  }
+
+  .prose code {
+    @apply font-mono text-sm bg-surface dark:bg-surface-dark px-1.5 py-0.5 rounded border border-border dark:border-border-dark;
+  }
+
+  .prose pre {
+    @apply bg-surface dark:bg-surface-dark border border-border dark:border-border-dark rounded-lg p-4 overflow-x-auto my-6 text-sm;
+  }
+
+  .prose pre code {
+    @apply bg-transparent border-0 p-0;
+  }
+
+  .prose hr {
+    @apply border-border dark:border-border-dark my-8;
+  }
+
+  .prose img {
+    @apply rounded-lg border border-border dark:border-border-dark;
+  }
+}

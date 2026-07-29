@@ -1,0 +1,23 @@
+<header class="sticky top-0 z-50 backdrop-blur-md bg-bg/80 dark:bg-bg-dark/80 border-b border-border dark:border-border-dark">
+  <div class="max-w-3xl mx-auto px-6 h-16 flex items-center justify-between">
+    <a href="{{ .Site.BaseURL }}" class="font-mono text-sm font-bold tracking-tight text-text dark:text-text-dark">
+      DEV<span class="text-accent dark:text-accent-dark">.LOG</span>
+    </a>
+
+    <nav class="flex items-center gap-6">
+      {{ range .Site.Menus.main }}
+        {{ if .Params.external }}
+          <a href="{{ .URL }}" target="_blank" rel="noopener noreferrer" class="font-mono text-xs uppercase tracking-widest text-text-muted dark:text-text-muted-dark hover:text-text dark:hover:text-text-dark transition-colors">
+            {{ .Name }}
+          </a>
+        {{ else }}
+          <a href="{{ .URL }}" class="font-mono text-xs uppercase tracking-widest text-text-muted dark:text-text-muted-dark hover:text-text dark:hover:text-text-dark transition-colors{{ if $.IsMenuCurrent "main" . }} text-text dark:text-text-dark{{ end }}">
+            {{ .Name }}
+          </a>
+        {{ end }}
+      {{ end }}
+
+      {{ partial "theme-toggle.html" . }}
+    </nav>
+  </div>
+</header>

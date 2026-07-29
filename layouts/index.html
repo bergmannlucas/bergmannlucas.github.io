@@ -1,0 +1,17 @@
+{{ define "main" }}
+<section class="pt-20 pb-12">
+  <h1 class="text-4xl sm:text-5xl font-semibold tracking-tight mb-4">Notas técnicas</h1>
+  <p class="text-lg text-text-muted dark:text-text-muted-dark leading-relaxed max-w-2xl">
+    Explorando arquitetura de sistemas, otimizações de baixo nível e a experiência de desenvolvimento moderna.
+  </p>
+</section>
+
+<section class="pb-12">
+  {{ $posts := where .Site.RegularPages "Type" "posts" }}
+  {{ range $posts.ByDate.Reverse }}
+    {{ partial "post-card.html" . }}
+  {{ else }}
+    <p class="py-12 text-text-muted dark:text-text-muted-dark">Nenhum post publicado ainda.</p>
+  {{ end }}
+</section>
+{{ end }}

@@ -1,0 +1,73 @@
+{{ define "main" }}
+<section class="pt-16 pb-8">
+  <h1 class="text-3xl sm:text-4xl font-semibold tracking-tight mb-3">{{ .Title }}</h1>
+  <p class="text-text-muted dark:text-text-muted-dark">Busque posts por título, tag ou conteúdo.</p>
+</section>
+
+<section class="pb-12">
+  <input
+    type="search"
+    id="search-input"
+    placeholder="Digite para buscar..."
+    class="w-full px-4 py-3 rounded-lg bg-surface dark:bg-surface-dark border border-border dark:border-border-dark text-text dark:text-text-dark placeholder:text-text-muted/50 dark:placeholder:text-text-muted-dark/50 focus:outline-none focus:ring-2 focus:ring-accent/50 dark:focus:ring-accent-dark/50 font-mono text-sm mb-8"
+  >
+
+  <div id="search-results" class="space-y-0">
+    <p class="text-text-muted dark:text-text-muted-dark">Comece a digitar para ver os resultados.</p>
+  </div>
+</section>
+
+<script>
+(function() {
+  const input = document.getElementById('search-input');
+  const results = document.getElementById('search-results');
+  let posts = [];
+
+  fetch('{{ "index.json" | relURL }}')
+    .then(res => res.json())
+    .then(data => { posts = data; })
+    .catch(err => {
+      console.error('Erro ao carregar índice de busca:', err);
+      results.innerHTML = '<p class="text-text-muted dark:text-text-muted-dark">Não foi possível carregar o índice de busca.</p>';
+    });
+
+  function normalize(str) {
+    return (str || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  }
+
+  function render(query) {
+    const q = normalize(query).trim();
+    if (!q) {
+      results.innerHTML = '<p class="text-text-muted dark:text-text-muted-dark">Comece a digitar para ver os resultados.</p>';
+      return;
+    }
+
+    const matches = posts.filter(p =>
+      normalize(p.title).includes(q) ||
+      normalize(p.summary).includes(q) ||
+      (p.tags || []).some(t => normalize(t).includes(q))
+    );
+
+    if (matches.length === 0) {
+      results.innerHTML = '<p class="text-text-muted dark:text-text-muted-dark">Nenhum resultado encontrado.</p>';
+      return;
+    }
+
+    results.innerHTML = matches.map(p => `
+      <article class="py-8 border-b border-border dark:border-border-dark last:border-b-0">
+        <div class="flex items-center gap-3 mb-2 font-mono text-xs uppercase tracking-widest text-text-muted dark:text-text-muted-dark">
+          <time datetime="${p.date}">${new Date(p.date).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' })}</time>
+          ${p.tags && p.tags.length ? `<span class="w-8 h-px bg-border dark:bg-border-dark"></span><a href="/tags/${encodeURIComponent(p.tags[0].toLowerCase().replace(/\s+/g, '-'))}/" class="text-accent dark:text-accent-dark hover:underline">${p.tags[0]}</a>` : ''}
+        </div>
+        <h2 class="text-xl sm:text-2xl font-semibold tracking-tight mb-2">
+          <a href="${p.permalink}" class="hover:text-accent dark:hover:text-accent-dark transition-colors">${p.title}</a>
+        </h2>
+        <p class="text-text-muted dark:text-text-muted-dark">${p.summary}</p>
+      </article>
+    `).join('');
+  }
+
+  input.addEventListener('input', (e) => render(e.target.value));
+})();
+</script>
+{{ end }}

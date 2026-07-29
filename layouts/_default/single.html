@@ -1,0 +1,45 @@
+{{ define "main" }}
+{{ $isPost := eq .Type "posts" }}
+
+<article class="pt-12 pb-8">
+  {{ if $isPost }}
+    <a href="{{ "/posts" | relURL }}" class="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-text-muted dark:text-text-muted-dark hover:text-text dark:hover:text-text-dark transition-colors mb-8">
+      <span>←</span> Voltar ao índice
+    </a>
+
+    <div class="flex items-center gap-3 mb-6 font-mono text-xs uppercase tracking-widest text-text-muted dark:text-text-muted-dark">
+      <time datetime="{{ .Date.Format "2006-01-02" }}">{{ partial "date.html" . }}</time>
+      {{ with .Params.tags }}
+        <span class="w-8 h-px bg-border dark:bg-border-dark"></span>
+        {{ range first 1 . }}
+          <a href="{{ "/tags/" | relURL }}{{ . | urlize }}" class="text-accent dark:text-accent-dark hover:underline">{{ . }}</a>
+        {{ end }}
+      {{ end }}
+      <span class="w-8 h-px bg-border dark:bg-border-dark"></span>
+      <span>{{ .ReadingTime }} min de leitura</span>
+    </div>
+  {{ end }}
+
+  <h1 class="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight mb-8 leading-tight">{{ .Title }}</h1>
+
+  {{ if $isPost }}
+    <div class="flex items-center gap-4 py-6 border-y border-border dark:border-border-dark mb-10">
+      <div class="w-11 h-11 rounded-full bg-surface dark:bg-surface-dark border border-border dark:border-border-dark flex items-center justify-center font-mono text-sm font-medium text-text dark:text-text-dark">
+        {{ .Site.Params.author.initials }}
+      </div>
+      <div>
+        <p class="font-medium text-text dark:text-text-dark">{{ .Site.Params.author.name }}</p>
+        <p class="text-sm text-text-muted dark:text-text-muted-dark">{{ .Site.Params.author.role }} · {{ .Site.Params.author.bio }}</p>
+      </div>
+    </div>
+  {{ end }}
+
+  <div class="prose">
+    {{ .Content }}
+  </div>
+</article>
+
+{{ if $isPost }}
+  {{ partial "giscus.html" . }}
+{{ end }}
+{{ end }}
