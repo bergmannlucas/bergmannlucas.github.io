@@ -6,7 +6,8 @@
     "css:watch": "tailwindcss -i ./assets/css/styles.css -o ./assets/css/main.css --watch",
     "css:build": "tailwindcss -i ./assets/css/styles.css -o ./assets/css/main.css --minify",
     "dev": "npm run css && hugo server --buildDrafts",
-    "build": "npm run css:build && hugo --gc --minify"
+    "build": "npm run css:build && hugo --gc --minify",
+    "new": "hugo new"
   },
   "devDependencies": {
     "tailwindcss": "^3.4.19"
